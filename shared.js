@@ -170,13 +170,16 @@ if (canvas) {
 }
 
 document.addEventListener("keydown", (e) => {
+  const target = e.target;
+  if (target.tagName === 'INPUT') return;
+  
   const key = e.key;
-  if (key >= '0' && key <= '9') { appendValue(key); return; }
-  if (key === '.') { appendValue('.'); return; }
-  if (key === '+' || key === '-' || key === '*' || key === '/') { appendValue(key); return; }
-  if (key === 'Enter' || key === '=') { e.preventDefault(); calculate(); return; }
-  if (key === 'Escape' || key === 'c' || key === 'C') { clearDisplay(); return; }
-  if (key === 'Backspace') { backspace(); return; }
+  if (typeof appendValue === 'function' && key >= '0' && key <= '9') { appendValue(key); return; }
+  if (typeof appendValue === 'function' && key === '.') { appendValue('.'); return; }
+  if (typeof appendValue === 'function' && (key === '+' || key === '-' || key === '*' || key === '/')) { appendValue(key); return; }
+  if (typeof calculate === 'function' && (key === 'Enter' || key === '=')) { e.preventDefault(); calculate(); return; }
+  if (typeof clearDisplay === 'function' && (key === 'Escape' || key === 'c' || key === 'C')) { clearDisplay(); return; }
+  if (typeof backspace === 'function' && key === 'Backspace') { backspace(); return; }
 });
 
 window.addEventListener('DOMContentLoaded', initTheme);

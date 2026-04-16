@@ -1,10 +1,4 @@
-const graphDisplay = document.getElementById("graphDisplay");
-const graphCanvas = document.getElementById("graphCanvas");
-const zoomLevel = document.getElementById("zoomLevel");
-const cursorPos = document.getElementById("cursorPos");
-const functionList = document.getElementById("functionList");
-
-let ctx = graphCanvas.getContext("2d");
+let graphDisplay, graphCanvas, ctx, zoomLevel, cursorPos, functionList;
 let functions = [];
 let zoom = 1;
 let offsetX = 0;
@@ -12,29 +6,66 @@ let offsetY = 0;
 let isDragging = false;
 let lastMouseX, lastMouseY;
 
-function resize() {
-  const container = document.querySelector('.graph-area');
+function init() {
+  graphDisplay = document.getElementById("graphDisplay");
+  graphCanvas = document.getElementById("graphCanvas");
+  zoomLevel = document.getElementById("zoomLevel");
+  cursorPos = document.getElementById("cursorPos");
+  functionList = document.getElementById("functionList");
+  
+  if (!graphCanvas) return;
+  
+  ctx = graphCanvas.getContext("2d");
+  resizeCanvas();
+  
+  window.addEventListener('resize', resizeCanvas);
+}
+
+function resizeCanvas() {
+  if (!graphCanvas || !graphCanvas.parentElement) return;
+  const container = graphCanvas.parentElement;
   graphCanvas.width = container.offsetWidth;
   graphCanvas.height = 350;
   drawGraph();
 }
-window.addEventListener('resize', resize);
 
 function addToGraph(text) {
   playClick();
+  if (!graphDisplay) return;
   graphDisplay.value += text;
   graphDisplay.focus();
 }
 
 function plotGraph() {
   playClick();
-  const expr = graphDisplay.value.trim();
-  if (!expr) return;
+  if (!graphDisplay || !graphDisplay.value.trim()) return;
   
-  functions.push({ expr, color: `hsl(${functions.length * 60}, 70%, 50%)` });
-  graphDisplay.value = "";
-  drawGraph();
-  renderFunctionList();
+  const expr = graphDisplay.value.trim();
+  
+  try {
+    testExpression(expr, 0);
+    functions.push({ expr, color: `hsl(${functions.length * 60}, 70%, 50%)` });
+    graphDisplay.value = "";
+    drawGraph();
+    renderFunctionList();
+  } catch (e) {
+    alert("Invalid expression: " + expr);
+  }
+}
+
+function testExpression(expr, x) {
+  const exp = expr
+    .replace(/sin/g, 'Math.sin')
+    .replace(/cos/g, 'Math.cos')
+    .replace(/tan/g, 'Math.tan')
+    .replace(/log/g, 'Math.log10')
+    .replace(/ln/g, 'Math.log')
+    .replace(/sqrt/g, 'Math.sqrt')
+    .replace(/abs/g, 'Math.abs')
+    .replace(/exp/g, 'Math.exp')
+    .replace(/pow/g, 'Math.pow');
+  
+  return Function('"use strict"; return (' + exp + ')')(x);
 }
 
 function clearGraph() {
@@ -45,6 +76,7 @@ function clearGraph() {
 }
 
 function renderFunctionList() {
+  if (!functionList) return;
   functionList.innerHTML = functions.map((f, i) => 
     `<div class="func-item" style="border-left-color: ${f.color}">
       <span>f${i + 1}(x) = ${f.expr}</span>
@@ -61,6 +93,8 @@ function removeFunction(index) {
 }
 
 function drawGraph() {
+  if (!ctx || !graphCanvas) return;
+  
   const width = graphCanvas.width;
   const height = graphCanvas.height;
   const centerX = width / 2 + offsetX;
@@ -109,37 +143,54 @@ function drawGraph() {
   ctx.lineTo(width, centerY);
   ctx.stroke();
   
-  functions.forEach((f, i) => {
+  functions.forEach((f) => {
     ctx.strokeStyle = f.color;
     ctx.lineWidth = 2;
     ctx.beginPath();
     
     let first = true;
+    let lastY = null;
+    
     for (let px = 0; px < width; px++) {
       const x = (px - centerX) / scale;
+      
       try {
-        const exp = f.expr.replace(/sin/g, 'Math.sin').replace(/cos/g, 'Math.cos')
-          .replace(/tan/g, 'Math.tan').replace(/log/g, 'Math.log10').replace(/ln/g, 'Math.log')
-          .replace(/sqrt/g, 'Math.sqrt').replace(/abs/g, 'Math.abs').replace(/exp/g, 'Math.exp')
-          .replace(/pow/g, 'Math.pow');
-        
-        let y = Function('"use strict"; return (' + exp + ')')(x);
-        if (!isFinite(y)) continue;
+        const y = testExpression(f.expr, x);
+        if (!isFinite(y) || isNaN(y)) {
+          first = true;
+          continue;
+        }
         
         const py = centerY - y * scale;
-        if (py < -height || py > height * 2) continue;
         
-        if (first) { ctx.moveTo(px, py); first = false; }
-        else { ctx.lineTo(px, py); }
-      } catch (e) { first = true; }
+        if (py < -height || py > height * 2) {
+          first = true;
+          continue;
+        }
+        
+        if (lastY !== null && Math.abs(py - lastY) > height * 0.5) {
+          first = true;
+        }
+        
+        if (first) {
+          ctx.moveTo(px, py);
+          first = false;
+        } else {
+          ctx.lineTo(px, py);
+        }
+        lastY = py;
+      } catch (e) {
+        first = true;
+        lastY = null;
+      }
     }
     ctx.stroke();
   });
   
-  zoomLevel.textContent = `Zoom: ${zoom}x`;
+  if (zoomLevel) zoomLevel.textContent = `Zoom: ${zoom}x`;
 }
 
-graphCanvas.addEventListener('wheel', (e) => {
+graphCanvas && graphCanvas.addEventListener('wheel', (e) => {
   e.preventDefault();
   if (e.deltaY < 0) zoom *= 1.1;
   else zoom /= 1.1;
@@ -147,20 +198,22 @@ graphCanvas.addEventListener('wheel', (e) => {
   drawGraph();
 });
 
-graphCanvas.addEventListener('mousedown', (e) => {
+graphCanvas && graphCanvas.addEventListener('mousedown', (e) => {
   isDragging = true;
   lastMouseX = e.clientX;
   lastMouseY = e.clientY;
 });
 
-graphCanvas.addEventListener('mousemove', (e) => {
+graphCanvas && graphCanvas.addEventListener('mousemove', (e) => {
+  if (!graphCanvas) return;
+  
   const rect = graphCanvas.getBoundingClientRect();
   const scale = 40 * zoom;
   const centerX = graphCanvas.width / 2 + offsetX;
   const centerY = graphCanvas.height / 2 + offsetY;
   const x = (e.clientX - rect.left - centerX) / scale;
   const y = -(e.clientY - rect.top - centerY) / scale;
-  cursorPos.textContent = `x: ${x.toFixed(2)}, y: ${y.toFixed(2)}`;
+  if (cursorPos) cursorPos.textContent = `x: ${x.toFixed(2)}, y: ${y.toFixed(2)}`;
   
   if (isDragging) {
     offsetX += e.clientX - lastMouseX;
@@ -171,8 +224,16 @@ graphCanvas.addEventListener('mousemove', (e) => {
   }
 });
 
-graphCanvas.addEventListener('mouseup', () => isDragging = false);
-graphCanvas.addEventListener('mouseleave', () => isDragging = false);
+graphCanvas && graphCanvas.addEventListener('mouseup', () => isDragging = false);
+graphCanvas && graphCanvas.addEventListener('mouseleave', () => isDragging = false);
 
-initTheme();
-setTimeout(resize, 100);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') plotGraph();
+  if (e.key === 'Escape') clearGraph();
+  if (e.key === 'c' || e.key === 'C') clearGraph();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  setTimeout(resizeCanvas, 200);
+});

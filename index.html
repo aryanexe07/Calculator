@@ -7,18 +7,37 @@
 </head>
 <body>
 
-
   <canvas id="network"></canvas>
 
- 
+  <div class="history-toggle" onclick="toggleHistory()">📜</div>
+  <div class="history-panel" id="historyPanel">
+    <div class="history-header">
+      <span>History</span>
+      <span onclick="clearHistory()" class="clear-history">Clear</span>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
   <div class="calculator">
-    <input type="text" id="display" readonly>
+    <div class="preview" id="preview"></div>
+    <input type="text" id="display" readonly onclick="copyToClipboard()">
+    <div class="mode-indicator" id="modeIndicator">RAD</div>
 
     <div class="buttons">
+      <button class="memory" onclick="memoryClear()">MC</button>
+      <button class="memory" onclick="memoryRecall()">MR</button>
+      <button class="memory" onclick="memoryAdd()">M+</button>
+      <button class="memory" onclick="memorySub()">M-</button>
+
+      <button class="func" onclick="toggleSign()">±</button>
+      <button class="func" onclick="percent()">%</button>
+      <button class="func" onclick="square()">x²</button>
+      <button class="func" onclick="squareRoot()">√</button>
+
       <button class="clear" onclick="clearDisplay()">C</button>
       <button onclick="appendValue('/')">/</button>
       <button onclick="appendValue('*')">*</button>
-      <button onclick="appendValue('-')">-</button>
+      <button class="backspace" onclick="display.value = display.value.slice(0, -1)">⌫</button>
 
       <button onclick="appendValue('7')">7</button>
       <button onclick="appendValue('8')">8</button>
@@ -28,14 +47,21 @@
       <button onclick="appendValue('4')">4</button>
       <button onclick="appendValue('5')">5</button>
       <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('-')">-</button>
 
       <button onclick="appendValue('1')">1</button>
       <button onclick="appendValue('2')">2</button>
       <button onclick="appendValue('3')">3</button>
+      <button class="equal" onclick="calculate()">=</button>
 
       <button onclick="appendValue('0')">0</button>
       <button onclick="appendValue('.')">.</button>
-      <button class="equal" onclick="calculate()">=</button>
+      <button class="theme" onclick="toggleTheme()">◐</button>
+    </div>
+
+    <div class="status-bar">
+      <span class="memory-indicator" id="memoryIndicator"></span>
+      <span class="copied-toast" id="copiedToast">Copied!</span>
     </div>
   </div>
 

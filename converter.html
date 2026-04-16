@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit Converter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="network"></canvas>
+  
+  <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  
+  <div class="converter">
+    <div class="converter-tabs">
+      <button class="tab active" onclick="switchTab('length')">Length</button>
+      <button class="tab" onclick="switchTab('weight')">Weight</button>
+      <button class="tab" onclick="switchTab('temp')">Temp</button>
+      <button class="tab" onclick="switchTab('area')">Area</button>
+      <button class="tab" onclick="switchTab('volume')">Volume</button>
+      <button class="tab" onclick="switchTab('speed')">Speed</button>
+    </div>
+    
+    <div class="converter-inputs">
+      <div class="converter-field">
+        <input type="number" id="fromValue" placeholder="Enter value" oninput="convert()">
+        <select id="fromUnit" onchange="convert()"></select>
+      </div>
+      <div class="converter-equals">=</div>
+      <div class="converter-field">
+        <input type="number" id="toValue" placeholder="Result" readonly>
+        <select id="toUnit" onchange="convert()"></select>
+      </div>
+    </div>
+    
+    <div class="converter-formulas" id="formulas"></div>
+    
+    <button class="swap-btn" onclick="swapUnits()">⇅ Swap</button>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="converter.js"></script>
+</body>
+</html>

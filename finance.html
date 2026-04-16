@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="network"></canvas>
+  
+  <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  
+  <div class="finance">
+    <div class="finance-tabs">
+      <button class="tab active" onclick="switchFinanceTab('emi')">EMI</button>
+      <button class="tab" onclick="switchFinanceTab('interest')">Interest</button>
+      <button class="tab" onclick="switchFinanceTab('investment')">Investment</button>
+    </div>
+    
+    <div class="finance-form" id="emiForm">
+      <h3>EMI Calculator</h3>
+      <div class="form-field">
+        <label>Loan Amount</label>
+        <input type="number" id="loanAmount" placeholder="Principal">
+      </div>
+      <div class="form-field">
+        <label>Interest Rate (% per year)</label>
+        <input type="number" id="interestRate" placeholder="Rate" step="0.01">
+      </div>
+      <div class="form-field">
+        <label>Loan Term (months)</label>
+        <input type="number" id="loanTerm" placeholder="Months">
+      </div>
+      <button class="calc-btn" onclick="calculateEMI()">Calculate EMI</button>
+      <div class="result-display" id="emiResult"></div>
+    </div>
+    
+    <div class="finance-form hidden" id="interestForm">
+      <h3>Simple/Compound Interest</h3>
+      <div class="form-field">
+        <label>Principal Amount</label>
+        <input type="number" id="principal" placeholder="Principal">
+      </div>
+      <div class="form-field">
+        <label>Rate (% per year)</label>
+        <input type="number" id="rate" placeholder="Rate" step="0.01">
+      </div>
+      <div class="form-field">
+        <label>Time (years)</label>
+        <input type="number" id="time" placeholder="Years" step="0.01">
+      </div>
+      <div class="form-field">
+        <label>Interest Type</label>
+        <select id="interestType">
+          <option value="simple">Simple Interest</option>
+          <option value="compound">Compound Interest</option>
+        </select>
+      </div>
+      <button class="calc-btn" onclick="calculateInterest()">Calculate</button>
+      <div class="result-display" id="interestResult"></div>
+    </div>
+    
+    <div class="finance-form hidden" id="investmentForm">
+      <h3>Investment Calculator</h3>
+      <div class="form-field">
+        <label>Monthly Investment</label>
+        <input type="number" id="monthlyInvest" placeholder="Monthly amount">
+      </div>
+      <div class="form-field">
+        <label>Annual Return (%</label>
+        <input type="number" id="annualReturn" placeholder="Rate" step="0.01">
+      </div>
+      <div class="form-field">
+        <label>Years to Invest</label>
+        <input type="number" id="investYears" placeholder="Years">
+      </div>
+      <button class="calc-btn" onclick="calculateInvestment()">Calculate</button>
+      <div class="result-display" id="investmentResult"></div>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="finance.js"></script>
+</body>
+</html>

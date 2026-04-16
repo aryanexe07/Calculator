@@ -2,69 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator Suite</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <canvas id="network"></canvas>
-
-  <div class="history-toggle" onclick="toggleHistory()">📜</div>
-  <div class="history-panel" id="historyPanel">
-    <div class="history-header">
-      <span>History</span>
-      <span onclick="clearHistory()" class="clear-history">Clear</span>
-    </div>
-    <div class="history-list" id="historyList"></div>
-  </div>
-
-  <div class="calculator">
-    <div class="preview" id="preview"></div>
-    <input type="text" id="display" readonly onclick="copyToClipboard()">
-    <div class="mode-indicator" id="modeIndicator">RAD</div>
-
-    <div class="buttons">
-      <button class="memory" onclick="memoryClear()">MC</button>
-      <button class="memory" onclick="memoryRecall()">MR</button>
-      <button class="memory" onclick="memoryAdd()">M+</button>
-      <button class="memory" onclick="memorySub()">M-</button>
-
-      <button class="func" onclick="toggleSign()">±</button>
-      <button class="func" onclick="percent()">%</button>
-      <button class="func" onclick="square()">x²</button>
-      <button class="func" onclick="squareRoot()">√</button>
-
-      <button class="clear" onclick="clearDisplay()">C</button>
-      <button onclick="appendValue('/')">/</button>
-      <button onclick="appendValue('*')">*</button>
-      <button class="backspace" onclick="display.value = display.value.slice(0, -1)">⌫</button>
-
-      <button onclick="appendValue('7')">7</button>
-      <button onclick="appendValue('8')">8</button>
-      <button onclick="appendValue('9')">9</button>
-      <button onclick="appendValue('+')">+</button>
-
-      <button onclick="appendValue('4')">4</button>
-      <button onclick="appendValue('5')">5</button>
-      <button onclick="appendValue('6')">6</button>
-      <button onclick="appendValue('-')">-</button>
-
-      <button onclick="appendValue('1')">1</button>
-      <button onclick="appendValue('2')">2</button>
-      <button onclick="appendValue('3')">3</button>
-      <button class="equal" onclick="calculate()">=</button>
-
-      <button onclick="appendValue('0')">0</button>
-      <button onclick="appendValue('.')">.</button>
-      <button class="theme" onclick="toggleTheme()">◐</button>
-    </div>
-
-    <div class="status-bar">
-      <span class="memory-indicator" id="memoryIndicator"></span>
-      <span class="copied-toast" id="copiedToast">Copied!</span>
+  
+  <div class="menu-container">
+    <h1 class="menu-title">Calculator Suite</h1>
+    <p class="menu-subtitle">Select a calculator</p>
+    
+    <div class="menu-grid">
+      <a href="basic.html" class="menu-card" onclick="goTo('basic.html')">
+        <span class="menu-icon">🔢</span>
+        <span class="menu-name">Basic</span>
+        <span class="menu-desc">Simple arithmetic</span>
+      </a>
+      
+      <a href="scientific.html" class="menu-card" onclick="goTo('scientific.html')">
+        <span class="menu-icon">📐</span>
+        <span class="menu-name">Scientific</span>
+        <span class="menu-desc">Trig, log, functions</span>
+      </a>
+      
+      <a href="graphing.html" class="menu-card" onclick="goTo('graphing.html')">
+        <span class="menu-icon">📈</span>
+        <span class="menu-name">Graphing</span>
+        <span class="menu-desc">Plot functions</span>
+      </a>
+      
+      <a href="converter.html" class="menu-card" onclick="goTo('converter.html')">
+        <span class="menu-icon">📏</span>
+        <span class="menu-name">Unit Converter</span>
+        <span class="menu-desc">Length, weight, etc.</span>
+      </a>
+      
+      <a href="base.html" class="menu-card" onclick="goTo('base.html')">
+        <span class="menu-icon">🔢</span>
+        <span class="menu-name">Base Converter</span>
+        <span class="menu-desc">Bin, Hex, Oct, Dec</span>
+      </a>
+      
+      <a href="finance.html" class="menu-card" onclick="goTo('finance.html')">
+        <span class="menu-icon">💰</span>
+        <span class="menu-name">Finance</span>
+        <span class="menu-desc">Loan, interest</span>
+      </a>
+      
+      <a href="date.html" class="menu-card" onclick="goTo('date.html')">
+        <span class="menu-icon">📅</span>
+        <span class="menu-name">Date</span>
+        <span class="menu-desc">Date calculator</span>
+      </a>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="shared.js"></script>
+  <script>
+    function goTo(page) {
+      window.location.href = page;
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scientific Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="network"></canvas>
+  
+  <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  
+  <div class="calculator scientific">
+    <div class="mode-indicator" id="modeIndicator" onclick="toggleMode()">RAD</div>
+    <div class="preview" id="preview"></div>
+    <input type="text" id="display" readonly onclick="copyToClipboard()">
+    
+    <div class="buttons scientific">
+      <div class="btn-row">
+        <button class="func" onclick="scientificFunc('sin')">sin</button>
+        <button class="func" onclick="scientificFunc('cos')">cos</button>
+        <button class="func" onclick="scientificFunc('tan')">tan</button>
+        <button class="func" onclick="scientificFunc('log')">log</button>
+      </div>
+      <div class="btn-row">
+        <button class="func" onclick="scientificFunc('asin')">sin⁻¹</button>
+        <button class="func" onclick="scientificFunc('acos')">cos⁻¹</button>
+        <button class="func" onclick="scientificFunc('atan')">tan⁻¹</button>
+        <button class="func" onclick="scientificFunc('ln')">ln</button>
+      </div>
+      <div class="btn-row">
+        <button class="func" onclick="scientificFunc('pi')">π</button>
+        <button class="func" onclick="scientificFunc('e')">e</button>
+        <button class="func" onclick="scientificFunc('pow')">xʸ</button>
+        <button class="func" onclick="scientificFunc('fact')">n!</button>
+      </div>
+      <div class="btn-row">
+        <button class="func" onclick="scientificFunc('sqrt')">√</button>
+        <button class="func" onclick="scientificFunc('square')">x²</button>
+        <button class="func" onclick="scientificFunc('cube')">x³</button>
+        <button class="func" onclick="scientificFunc('abs')">|x|</button>
+      </div>
+      <div class="btn-row">
+        <button class="func" onclick="scientificFunc('exp')">eˣ</button>
+        <button class="func" onclick="scientificFunc('10x')">10ˣ</button>
+        <button class="func" onclick="scientificFunc('1/x')">1/x</button>
+        <button class="func" onclick="scientificFunc('mod')">mod</button>
+      </div>
+      <div class="btn-row">
+        <button class="func" onclick="scientificFunc('left')">(</button>
+        <button class="func" onclick="scientificFunc('right')">)</button>
+        <button class="func" onclick="appendValue(',')">,</button>
+        <button class="clear" onclick="clearDisplay()">C</button>
+      </div>
+      <div class="btn-row num-row">
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button onclick="appendValue('/')">/</button>
+      </div>
+      <div class="btn-row num-row">
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button onclick="appendValue('*')">×</button>
+      </div>
+      <div class="btn-row num-row">
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button onclick="appendValue('-')">-</button>
+      </div>
+      <div class="btn-row num-row">
+        <button onclick="appendValue('0')">0</button>
+        <button onclick="appendValue('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+        <button onclick="appendValue('+')">+</button>
+      </div>
+      <div class="btn-row">
+        <button class="backspace" onclick="backspace()">⌫</button>
+        <button class="theme" onclick="toggleTheme()">◐</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="scientific.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graphing Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="network"></canvas>
+  
+  <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  
+  <div class="graphing-container">
+    <div class="graph-input-area">
+      <div class="graph-preview">f(x) = </div>
+      <input type="text" id="graphDisplay" placeholder="e.g., x^2, sin(x), x^3/3" autofocus>
+      <div class="graph-buttons">
+        <button onclick="addToGraph('x')">x</button>
+        <button onclick="addToGraph('x^2')">x²</button>
+        <button onclick="addToGraph('x^3')">x³</button>
+        <button onclick="addToGraph('sin(x)')">sin</button>
+        <button onclick="addToGraph('cos(x)')">cos</button>
+        <button onclick="addToGraph('tan(x)')">tan</button>
+        <button onclick="addToGraph('sqrt(x)')">√</button>
+        <button onclick="addToGraph('exp(x)')">eˣ</button>
+        <button onclick="addToGraph('log(x)')">log</button>
+        <button onclick="plotGraph()">Plot</button>
+        <button onclick="clearGraph()">Clear</button>
+        <button class="theme" onclick="toggleTheme()">◐</button>
+      </div>
+    </div>
+    
+    <div class="graph-area">
+      <canvas id="graphCanvas"></canvas>
+      <div class="graph-info">
+        <span id="zoomLevel">Zoom: 1x</span>
+        <span id="cursorPos">x: 0, y: 0</span>
+      </div>
+    </div>
+    
+    <div class="function-list" id="functionList"></div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="graphing.js"></script>
+</body>
+</html>

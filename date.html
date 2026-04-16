@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="network"></canvas>
+  
+  <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  
+  <div class="date-calculator">
+    <div class="date-tabs">
+      <button class="tab active" onclick="switchDateTab('diff')">Date Difference</button>
+      <button class="tab" onclick="switchDateTab('add')">Add Days</button>
+      <button class="tab" onclick="switchDateTab('weekday')">Weekday</button>
+    </div>
+    
+    <div class="date-form" id="diffForm">
+      <h3>Days Between Dates</h3>
+      <div class="form-field">
+        <label>Start Date</label>
+        <input type="date" id="startDate">
+      </div>
+      <div class="form-field">
+        <label>End Date</label>
+        <input type="date" id="endDate">
+      </div>
+      <button class="calc-btn" onclick="calculateDiff()">Calculate</button>
+      <div class="result-display" id="diffResult"></div>
+    </div>
+    
+    <div class="date-form hidden" id="addForm">
+      <h3>Add/Subtract Days</h3>
+      <div class="form-field">
+        <label>Start Date</label>
+        <input type="date" id="startDateAdd">
+      </div>
+      <div class="form-field">
+        <label>Days to Add (negative to subtract)</label>
+        <input type="number" id="daysToAdd" placeholder="Days">
+      </div>
+      <button class="calc-btn" onclick="calculateAdd()">Calculate</button>
+      <div class="result-display" id="addResult"></div>
+    </div>
+    
+    <div class="date-form hidden" id="weekdayForm">
+      <h3>Day of Week</h3>
+      <div class="form-field">
+        <label>Date</label>
+        <input type="date" id="weekdayDate">
+      </div>
+      <button class="calc-btn" onclick="calculateWeekday()">Find Day</button>
+      <div class="result-display" id="weekdayResult"></div>
+    </div>
+    
+    <div class="date-quick">
+      <h4>Quick Options</h4>
+      <button onclick="setToday('startDate')">Today (Start)</button>
+      <button onclick="setToday('endDate')">Today (End)</button>
+      <button onclick="setToday('startDateAdd')">Today</button>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="date.js"></script>
+</body>
+</html>

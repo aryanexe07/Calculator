@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base Converter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="network"></canvas>
+  
+  <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  
+  <div class="base-converter">
+    <div class="base-display">
+      <input type="text" id="inputValue" placeholder="Enter number" oninput="convertBase()">
+      <select id="fromBase" onchange="convertBase()">
+        <option value="2">Binary (2)</option>
+        <option value="8">Octal (8)</option>
+        <option value="10" selected>Decimal (10)</option>
+        <option value="16">Hexadecimal (16)</option>
+      </select>
+    </div>
+    
+    <div class="base-results">
+      <div class="base-result">
+        <label>Binary</label>
+        <input type="text" id="binResult" readonly onclick="copyResult('binResult')">
+        <span class="base-label">2</span>
+      </div>
+      <div class="base-result">
+        <label>Octal</label>
+        <input type="text" id="octResult" readonly onclick="copyResult('octResult')">
+        <span class="base-label">8</span>
+      </div>
+      <div class="base-result">
+        <label>Decimal</label>
+        <input type="text" id="decResult" readonly onclick="copyResult('decResult')">
+        <span class="base-label">10</span>
+      </div>
+      <div class="base-result">
+        <label>Hexadecimal</label>
+        <input type="text" id="hexResult" readonly onclick="copyResult('hexResult')">
+        <span class="base-label">16</span>
+      </div>
+    </div>
+    
+    <div class="base-info">
+      <p id="baseInfo">Enter a number in any base to see conversions</p>
+    </div>
+  </div>
+
+  <script src="shared.js"></script>
+  <script src="base.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tip & Split Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="network"></canvas>
+  
+  <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">◐</button>
+  <div class="favorite-badge" onclick="toggleFavorite()">★ Pin</div>
+  
+  <div class="converter">
+    <h2 style="margin-bottom: 20px;">Tip & Split</h2>
+    
+    <div class="converter-inputs" style="flex-direction: column; gap: 15px;">
+      <div class="converter-field">
+        <input type="number" id="billAmount" class="no-shortcut" placeholder="Bill Amount" oninput="calculate()">
+      </div>
+      
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="min-width: 60px;">Tip %</span>
+        <input type="range" id="tipSlider" min="0" max="30" value="15" oninput="updateTipPercent(this.value)">
+        <span id="tipPercent" style="min-width: 50px;">15%</span>
+        <input type="number" id="tipPercentInput" class="no-shortcut" style="width: 70px;" value="15" min="0" max="100" oninput="updateTipFromInput(this.value)">
+      </div>
+      
+      <div class="converter-field">
+        <input type="number" id="numPeople" class="no-shortcut" placeholder="Number of People" value="1" min="1" oninput="calculate()">
+      </div>
+    </div>
+    
+    <div class="converter-formulas" id="results" style="margin-top: 20px;">
+      <div class="result-row">
+        <span>Tip Amount:</span>
+        <span id="tipAmount">$0.00</span>
+      </div>
+      <div class="result-row">
+        <span>Total:</span>
+        <span id="totalAmount">$0.00</span>
+      </div>
+      <div class="result-row highlight">
+        <span>Per Person:</span>
+        <span id="perPerson">$0.00</span>
+      </div>
+    </div>
+    
+    <div style="margin-top: 20px; padding: 15px; background: var(--bg-display); border-radius: 10px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+        <span>Quick Tip %:</span>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button onclick="setTip(10)">10%</button>
+        <button onclick="setTip(15)">15%</button>
+        <button onclick="setTip(18)">18%</button>
+        <button onclick="setTip(20)">20%</button>
+        <button onclick="setTip(25)">25%</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CALCULATOR_NAME = 'tip';
+  </script>
+  <script src="shared.js"></script>
+  <script src="tipsplit.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fav = getFavCalculator();
+      if (fav === 'Tip') document.querySelector('.favorite-badge').textContent = '★ Pinned';
+    });
+  </script>
+</body>
+</html>

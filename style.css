@@ -497,6 +497,22 @@ button.theme { background: transparent; font-size: 20px; }
   text-align: center;
 }
 
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--bg-button);
+}
+.result-row:last-child { border-bottom: none; }
+.result-row.highlight {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--accent-green);
+  border-top: 2px solid var(--accent-green);
+  margin-top: 5px;
+  padding-top: 10px;
+}
+
 .swap-btn {
   width: 100%;
   margin-top: 20px;

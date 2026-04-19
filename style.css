@@ -329,6 +329,23 @@ button.theme { background: transparent; font-size: 20px; }
   border-radius: 6px;
 }
 
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 8px 14px;
+  background: var(--bg-calc);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: none;
+  color: var(--text-primary);
+}
+
+.theme-toggle:hover { transform: scale(1.1); }
+
 @keyframes popIn {
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }

@@ -10,6 +10,7 @@
   <canvas id="network"></canvas>
   
   <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  <div class="favorite-badge" onclick="toggleFavorite()">★ Pin</div>
   
   <div class="date-calculator">
     <div class="date-tabs">
@@ -22,38 +23,38 @@
       <h3>Days Between Dates</h3>
       <div class="form-field">
         <label>Start Date</label>
-        <input type="date" id="startDate">
+        <input type="date" id="startDate" class="no-shortcut">
       </div>
       <div class="form-field">
         <label>End Date</label>
-        <input type="date" id="endDate">
+        <input type="date" id="endDate" class="no-shortcut">
       </div>
       <button class="calc-btn" onclick="calculateDiff()">Calculate</button>
-      <div class="result-display" id="diffResult"></div>
+      <div class="result-display" id="diffResult" onclick="copyToClipboard(this.innerText)"></div>
     </div>
     
     <div class="date-form hidden" id="addForm">
       <h3>Add/Subtract Days</h3>
       <div class="form-field">
         <label>Start Date</label>
-        <input type="date" id="startDateAdd">
+        <input type="date" id="startDateAdd" class="no-shortcut">
       </div>
       <div class="form-field">
         <label>Days to Add (negative to subtract)</label>
-        <input type="number" id="daysToAdd" placeholder="Days">
+        <input type="number" id="daysToAdd" class="no-shortcut" placeholder="Days">
       </div>
       <button class="calc-btn" onclick="calculateAdd()">Calculate</button>
-      <div class="result-display" id="addResult"></div>
+      <div class="result-display" id="addResult" onclick="copyToClipboard(this.innerText)"></div>
     </div>
     
     <div class="date-form hidden" id="weekdayForm">
       <h3>Day of Week</h3>
       <div class="form-field">
         <label>Date</label>
-        <input type="date" id="weekdayDate">
+        <input type="date" id="weekdayDate" class="no-shortcut">
       </div>
       <button class="calc-btn" onclick="calculateWeekday()">Find Day</button>
-      <div class="result-display" id="weekdayResult"></div>
+      <div class="result-display" id="weekdayResult" onclick="copyToClipboard(this.innerText)"></div>
     </div>
     
     <div class="date-quick">
@@ -64,7 +65,18 @@
     </div>
   </div>
 
+  <div class="shortcut-hint">Ctrl+C: Copy | Ctrl+F: Pin | 1-3: Switch tab</div>
+
+  <script>
+    const CALCULATOR_NAME = 'date';
+  </script>
   <script src="shared.js"></script>
   <script src="date.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fav = getFavCalculator();
+      if (fav === 'Date') document.querySelector('.favorite-badge').textContent = '★ Pinned';
+    });
+  </script>
 </body>
 </html>

@@ -12,45 +12,46 @@
   <div class="menu-container">
     <h1 class="menu-title">Calculator Suite</h1>
     <p class="menu-subtitle">Select a calculator</p>
+    <p class="menu-subtitle" id="pinnedInfo" style="color: var(--accent-blue);"></p>
     
     <div class="menu-grid">
-      <a href="basic.html" class="menu-card" onclick="goTo('basic.html')">
+      <a href="basic.html" class="menu-card" onclick="goTo('basic.html', 'Basic')">
         <span class="menu-icon">🔢</span>
         <span class="menu-name">Basic</span>
         <span class="menu-desc">Simple arithmetic</span>
       </a>
       
-      <a href="scientific.html" class="menu-card" onclick="goTo('scientific.html')">
+      <a href="scientific.html" class="menu-card" onclick="goTo('scientific.html', 'Scientific')">
         <span class="menu-icon">📐</span>
         <span class="menu-name">Scientific</span>
         <span class="menu-desc">Trig, log, functions</span>
       </a>
       
-      <a href="graphing.html" class="menu-card" onclick="goTo('graphing.html')">
+      <a href="graphing.html" class="menu-card" onclick="goTo('graphing.html', 'Graphing')">
         <span class="menu-icon">📈</span>
         <span class="menu-name">Graphing</span>
         <span class="menu-desc">Plot functions</span>
       </a>
       
-      <a href="converter.html" class="menu-card" onclick="goTo('converter.html')">
+      <a href="converter.html" class="menu-card" onclick="goTo('converter.html', 'Converter')">
         <span class="menu-icon">📏</span>
         <span class="menu-name">Unit Converter</span>
         <span class="menu-desc">Length, weight, etc.</span>
       </a>
       
-      <a href="base.html" class="menu-card" onclick="goTo('base.html')">
+      <a href="base.html" class="menu-card" onclick="goTo('base.html', 'Base')">
         <span class="menu-icon">🔢</span>
         <span class="menu-name">Base Converter</span>
         <span class="menu-desc">Bin, Hex, Oct, Dec</span>
       </a>
       
-      <a href="finance.html" class="menu-card" onclick="goTo('finance.html')">
+      <a href="finance.html" class="menu-card" onclick="goTo('finance.html', 'Finance')">
         <span class="menu-icon">💰</span>
         <span class="menu-name">Finance</span>
         <span class="menu-desc">Loan, interest</span>
       </a>
       
-      <a href="date.html" class="menu-card" onclick="goTo('date.html')">
+      <a href="date.html" class="menu-card" onclick="goTo('date.html', 'Date')">
         <span class="menu-icon">📅</span>
         <span class="menu-name">Date</span>
         <span class="menu-desc">Date calculator</span>
@@ -60,9 +61,29 @@
 
   <script src="shared.js"></script>
   <script>
-    function goTo(page) {
+    const pages = {
+      'Basic': 'basic.html',
+      'Scientific': 'scientific.html',
+      'Graphing': 'graphing.html',
+      'Converter': 'converter.html',
+      'Base': 'base.html',
+      'Finance': 'finance.html',
+      'Date': 'date.html'
+    };
+    
+    function goTo(page, name) {
+      setFavCalculator(name);
       window.location.href = page;
     }
+    
+    function init() {
+      const fav = localStorage.getItem('calcFavorite');
+      if (fav && pages[fav]) {
+        document.getElementById('pinnedInfo').textContent = '★ ' + fav + ' is pinned - click to open';
+        setTimeout(() => window.location.href = pages[fav], 1500);
+      }
+    }
+    window.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>

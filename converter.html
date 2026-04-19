@@ -10,6 +10,7 @@
   <canvas id="network"></canvas>
   
   <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  <div class="favorite-badge" onclick="toggleFavorite()">★ Pin</div>
   
   <div class="converter">
     <div class="converter-tabs">
@@ -23,13 +24,13 @@
     
     <div class="converter-inputs">
       <div class="converter-field">
-        <input type="number" id="fromValue" placeholder="Enter value" oninput="convert()">
-        <select id="fromUnit" onchange="convert()"></select>
+        <input type="number" id="fromValue" class="no-shortcut" placeholder="Enter value" oninput="convert()">
+        <select id="fromUnit" class="no-shortcut" onchange="convert()"></select>
       </div>
       <div class="converter-equals">=</div>
       <div class="converter-field">
-        <input type="number" id="toValue" placeholder="Result" readonly>
-        <select id="toUnit" onchange="convert()"></select>
+        <input type="number" id="toValue" class="no-shortcut" placeholder="Result" readonly onclick="copyToClipboard(this.value)">
+        <select id="toUnit" class="no-shortcut" onchange="convert()"></select>
       </div>
     </div>
     
@@ -38,7 +39,18 @@
     <button class="swap-btn" onclick="swapUnits()">⇅ Swap</button>
   </div>
 
+  <div class="shortcut-hint">Ctrl+C: Copy | Ctrl+F: Pin | 1-6: Switch tab</div>
+
+  <script>
+    const CALCULATOR_NAME = 'converter';
+  </script>
   <script src="shared.js"></script>
   <script src="converter.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fav = getFavCalculator();
+      if (fav === 'Converter') document.querySelector('.favorite-badge').textContent = '★ Pinned';
+    });
+  </script>
 </body>
 </html>

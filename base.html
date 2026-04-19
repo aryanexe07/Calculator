@@ -10,11 +10,12 @@
   <canvas id="network"></canvas>
   
   <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  <div class="favorite-badge" onclick="toggleFavorite()">★ Pin</div>
   
   <div class="base-converter">
     <div class="base-display">
-      <input type="text" id="inputValue" placeholder="Enter number" oninput="convertBase()">
-      <select id="fromBase" onchange="convertBase()">
+      <input type="text" id="inputValue" class="no-shortcut" placeholder="Enter number" oninput="convertBase()">
+      <select id="fromBase" class="no-shortcut" onchange="convertBase()">
         <option value="2">Binary (2)</option>
         <option value="8">Octal (8)</option>
         <option value="10" selected>Decimal (10)</option>
@@ -25,22 +26,22 @@
     <div class="base-results">
       <div class="base-result">
         <label>Binary</label>
-        <input type="text" id="binResult" readonly onclick="copyResult('binResult')">
+        <input type="text" id="binResult" readonly onclick="copyToClipboard(this.value)">
         <span class="base-label">2</span>
       </div>
       <div class="base-result">
         <label>Octal</label>
-        <input type="text" id="octResult" readonly onclick="copyResult('octResult')">
+        <input type="text" id="octResult" readonly onclick="copyToClipboard(this.value)">
         <span class="base-label">8</span>
       </div>
       <div class="base-result">
         <label>Decimal</label>
-        <input type="text" id="decResult" readonly onclick="copyResult('decResult')">
+        <input type="text" id="decResult" readonly onclick="copyToClipboard(this.value)">
         <span class="base-label">10</span>
       </div>
       <div class="base-result">
         <label>Hexadecimal</label>
-        <input type="text" id="hexResult" readonly onclick="copyResult('hexResult')">
+        <input type="text" id="hexResult" readonly onclick="copyToClipboard(this.value)">
         <span class="base-label">16</span>
       </div>
     </div>
@@ -50,7 +51,18 @@
     </div>
   </div>
 
+  <div class="shortcut-hint">Ctrl+C: Copy | Ctrl+F: Pin</div>
+
+  <script>
+    const CALCULATOR_NAME = 'base';
+  </script>
   <script src="shared.js"></script>
   <script src="base.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fav = getFavCalculator();
+      if (fav === 'Base') document.querySelector('.favorite-badge').textContent = '★ Pinned';
+    });
+  </script>
 </body>
 </html>

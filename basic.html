@@ -10,10 +10,12 @@
   <canvas id="network"></canvas>
   
   <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  <div class="favorite-badge" onclick="toggleFavorite()">★ Pin</div>
   
   <div class="calculator">
     <div class="preview" id="preview"></div>
     <input type="text" id="display" readonly onclick="copyToClipboard()">
+    <div class="history-toggle" onclick="toggleHistory()">📜 History</div>
     
     <div class="buttons">
       <button class="clear" onclick="clearDisplay()">C</button>
@@ -42,7 +44,27 @@
     </div>
   </div>
 
+  <div class="history-panel" id="historyPanel">
+    <div class="history-header">
+      <h3>History</h3>
+      <button onclick="clearHistory(); renderHistory();">Clear</button>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
+  <div class="shortcut-hint">Ctrl+C: Copy | Ctrl+H: History | Ctrl+F: Pin</div>
+
+  <script>
+    const CALCULATOR_NAME = 'basic';
+  </script>
   <script src="shared.js"></script>
   <script src="basic.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      renderHistory();
+      const fav = getFavCalculator();
+      if (fav === 'Basic') document.querySelector('.favorite-badge').textContent = '★ Pinned';
+    });
+  </script>
 </body>
 </html>

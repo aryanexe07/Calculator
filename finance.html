@@ -10,6 +10,7 @@
   <canvas id="network"></canvas>
   
   <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  <div class="favorite-badge" onclick="toggleFavorite()">★ Pin</div>
   
   <div class="finance">
     <div class="finance-tabs">
@@ -22,65 +23,76 @@
       <h3>EMI Calculator</h3>
       <div class="form-field">
         <label>Loan Amount</label>
-        <input type="number" id="loanAmount" placeholder="Principal">
+        <input type="number" id="loanAmount" class="no-shortcut" placeholder="Principal">
       </div>
       <div class="form-field">
         <label>Interest Rate (% per year)</label>
-        <input type="number" id="interestRate" placeholder="Rate" step="0.01">
+        <input type="number" id="interestRate" class="no-shortcut" placeholder="Rate" step="0.01">
       </div>
       <div class="form-field">
         <label>Loan Term (months)</label>
-        <input type="number" id="loanTerm" placeholder="Months">
+        <input type="number" id="loanTerm" class="no-shortcut" placeholder="Months">
       </div>
       <button class="calc-btn" onclick="calculateEMI()">Calculate EMI</button>
-      <div class="result-display" id="emiResult"></div>
+      <div class="result-display" id="emiResult" onclick="copyToClipboard(this.innerText)"></div>
     </div>
     
     <div class="finance-form hidden" id="interestForm">
       <h3>Simple/Compound Interest</h3>
       <div class="form-field">
         <label>Principal Amount</label>
-        <input type="number" id="principal" placeholder="Principal">
+        <input type="number" id="principal" class="no-shortcut" placeholder="Principal">
       </div>
       <div class="form-field">
         <label>Rate (% per year)</label>
-        <input type="number" id="rate" placeholder="Rate" step="0.01">
+        <input type="number" id="rate" class="no-shortcut" placeholder="Rate" step="0.01">
       </div>
       <div class="form-field">
         <label>Time (years)</label>
-        <input type="number" id="time" placeholder="Years" step="0.01">
+        <input type="number" id="time" class="no-shortcut" placeholder="Years" step="0.01">
       </div>
       <div class="form-field">
         <label>Interest Type</label>
-        <select id="interestType">
+        <select id="interestType" class="no-shortcut">
           <option value="simple">Simple Interest</option>
           <option value="compound">Compound Interest</option>
         </select>
       </div>
       <button class="calc-btn" onclick="calculateInterest()">Calculate</button>
-      <div class="result-display" id="interestResult"></div>
+      <div class="result-display" id="interestResult" onclick="copyToClipboard(this.innerText)"></div>
     </div>
     
     <div class="finance-form hidden" id="investmentForm">
       <h3>Investment Calculator</h3>
       <div class="form-field">
         <label>Monthly Investment</label>
-        <input type="number" id="monthlyInvest" placeholder="Monthly amount">
+        <input type="number" id="monthlyInvest" class="no-shortcut" placeholder="Monthly amount">
       </div>
       <div class="form-field">
-        <label>Annual Return (%</label>
-        <input type="number" id="annualReturn" placeholder="Rate" step="0.01">
+        <label>Annual Return (%
+        <input type="number" id="annualReturn" class="no-shortcut" placeholder="Rate" step="0.01">
       </div>
       <div class="form-field">
         <label>Years to Invest</label>
-        <input type="number" id="investYears" placeholder="Years">
+        <input type="number" id="investYears" class="no-shortcut" placeholder="Years">
       </div>
       <button class="calc-btn" onclick="calculateInvestment()">Calculate</button>
-      <div class="result-display" id="investmentResult"></div>
+      <div class="result-display" id="investmentResult" onclick="copyToClipboard(this.innerText)"></div>
     </div>
   </div>
 
+  <div class="shortcut-hint">Ctrl+C: Copy | Ctrl+F: Pin | 1-3: Switch tab</div>
+
+  <script>
+    const CALCULATOR_NAME = 'finance';
+  </script>
   <script src="shared.js"></script>
   <script src="finance.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fav = getFavCalculator();
+      if (fav === 'Finance') document.querySelector('.favorite-badge').textContent = '★ Pinned';
+    });
+  </script>
 </body>
 </html>

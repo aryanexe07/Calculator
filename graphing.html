@@ -10,11 +10,12 @@
   <canvas id="network"></canvas>
   
   <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  <div class="favorite-badge" onclick="toggleFavorite()">★ Pin</div>
   
   <div class="graphing-container">
     <div class="graph-input-area">
       <div class="graph-preview">f(x) = </div>
-      <input type="text" id="graphDisplay" placeholder="e.g., x^2, sin(x), x^3/3" autofocus>
+      <input type="text" id="graphDisplay" class="no-shortcut" placeholder="e.g., x^2, sin(x), x^3/3" autofocus>
       <div class="graph-buttons">
         <button onclick="addToGraph('x')">x</button>
         <button onclick="addToGraph('x^2')">x²</button>
@@ -42,7 +43,18 @@
     <div class="function-list" id="functionList"></div>
   </div>
 
+  <div class="shortcut-hint">Enter: Plot | Ctrl+F: Pin</div>
+
+  <script>
+    const CALCULATOR_NAME = 'graphing';
+  </script>
   <script src="shared.js"></script>
   <script src="graphing.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fav = getFavCalculator();
+      if (fav === 'Graphing') document.querySelector('.favorite-badge').textContent = '★ Pinned';
+    });
+  </script>
 </body>
 </html>

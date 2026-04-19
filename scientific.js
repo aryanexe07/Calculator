@@ -174,6 +174,7 @@ function calculate() {
     display.value = formatted;
     if (preview) preview.textContent = `${expr} = ${formatted}`;
     playEqual();
+    addToHistory(expr, formatted);
   } catch (e) {
     display.value = "Error";
     setTimeout(() => { display.value = lastResult || ""; }, 1500);

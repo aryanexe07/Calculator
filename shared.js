@@ -267,6 +267,15 @@ document.addEventListener("keydown", (e) => {
   if (ctrl && key === 'h') { toggleHistory(); return; }
   if (ctrl && key === 'f') { e.preventDefault(); toggleFavorite(); return; }
   
+  if (document.getElementById('graphCanvas') && key === 'i') {
+    if (typeof toggleIntersections === 'function') toggleIntersections();
+    return;
+  }
+  if (document.getElementById('graphCanvas') && key === 'd') {
+    if (typeof toggleDerivative === 'function') toggleDerivative();
+    return;
+  }
+  
   if (typeof appendValue === 'function' && key >= '0' && key <= '9') { appendValue(key); return; }
   if (typeof appendValue === 'function' && key === '.') { appendValue('.'); return; }
   if (typeof appendValue === 'function' && (key === '+' || key === '-' || key === '*' || key === '/')) { appendValue(key); return; }
@@ -276,8 +285,8 @@ document.addEventListener("keydown", (e) => {
   if (typeof clearDisplay === 'function' && (key === 'Escape' || key === 'c' || key === 'C')) { clearDisplay(); return; }
   if (typeof backspace === 'function' && key === 'Backspace') { backspace(); return; }
   
-  if (typeof switchTab === 'function' && key >= '1' && key <= '6') {
-    const tabs = ['length', 'weight', 'temp', 'area', 'volume', 'speed'];
+  if (typeof switchTab === 'function' && key >= '1' && key <= '9' || key === '0') {
+    const tabs = ['length', 'weight', 'temp', 'area', 'volume', 'speed', 'fuel', 'data', 'cooking', 'pressure', 'energy'];
     const tabsFinance = ['emi', 'interest', 'investment'];
     const tabsDate = ['diff', 'add', 'weekday'];
     
@@ -286,7 +295,8 @@ document.addEventListener("keydown", (e) => {
     } else if (document.querySelector('.date-tabs')) {
       switchDateTab(tabsDate[parseInt(key) - 1]);
     } else if (document.querySelector('.converter-tabs')) {
-      switchTab(tabs[parseInt(key) - 1]);
+      const tabIdx = key === '0' ? 9 : parseInt(key) - 1;
+      switchTab(tabs[tabIdx]);
     }
     return;
   }

@@ -29,6 +29,8 @@
         <button onclick="addToGraph('log(x)')">log</button>
         <button onclick="plotGraph()">Plot</button>
         <button onclick="clearGraph()">Clear</button>
+        <button onclick="toggleIntersections()" id="intersectBtn">∩ Find</button>
+        <button onclick="toggleDerivative()" id="derivBtn">'∂ d/dx</button>
         <button class="theme" onclick="toggleTheme()">◐</button>
       </div>
     </div>
@@ -44,7 +46,7 @@
     <div class="function-list" id="functionList"></div>
   </div>
 
-  <div class="shortcut-hint">Enter: Plot | Ctrl+F: Pin</div>
+  <div class="shortcut-hint">Enter: Plot | ∩: Intersect | ∂: Derivative</div>
 
   <script>
     const CALCULATOR_NAME = 'graphing';

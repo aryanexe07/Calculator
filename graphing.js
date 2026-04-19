@@ -5,6 +5,8 @@ let offsetX = 0;
 let offsetY = 0;
 let isDragging = false;
 let lastMouseX, lastMouseY;
+let showIntersections = false;
+let showDerivative = false;
 
 function init() {
   graphDisplay = document.getElementById("graphDisplay");
@@ -75,6 +77,20 @@ function clearGraph() {
   renderFunctionList();
 }
 
+function toggleIntersections() {
+  playClick();
+  showIntersections = !showIntersections;
+  document.getElementById('intersectBtn').style.background = showIntersections ? 'var(--accent-blue)' : '';
+  drawGraph();
+}
+
+function toggleDerivative() {
+  playClick();
+  showDerivative = !showDerivative;
+  document.getElementById('derivBtn').style.background = showDerivative ? 'var(--accent-blue)' : '';
+  drawGraph();
+}
+
 function renderFunctionList() {
   if (!functionList) return;
   functionList.innerHTML = functions.map((f, i) => 
@@ -90,6 +106,126 @@ function removeFunction(index) {
   functions.splice(index, 1);
   drawGraph();
   renderFunctionList();
+}
+
+function findDerivative(expr) {
+  const h = 0.0001;
+  return function(x) {
+    return (testExpression(expr, x + h) - testExpression(expr, x)) / h;
+  };
+}
+
+function findIntersections() {
+  if (!ctx || functions.length < 2) return [];
+  
+  const intersections = [];
+  const scale = 40 * zoom;
+  const centerX = graphCanvas.width / 2 + offsetX;
+  const centerY = graphCanvas.height / 2 + offsetY;
+  const tolerance = 0.1 / scale;
+  
+  for (let i = 0; i < functions.length; i++) {
+    for (let j = i + 1; j < functions.length; j++) {
+      const f1 = functions[i];
+      const f2 = functions[j];
+      
+      for (let px = 1; px < graphCanvas.width; px++) {
+        const x1 = (px - 1 - centerX) / scale;
+        const x2 = (px - centerX) / scale;
+        
+        try {
+          const y1f1 = testExpression(f1.expr, x1);
+          const y2f1 = testExpression(f1.expr, x2);
+          const y1f2 = testExpression(f2.expr, x1);
+          const y2f2 = testExpression(f2.expr, x2);
+          
+          if (Math.sign(y1f1 - y1f2) !== Math.sign(y2f1 - y2f2)) {
+            for (let iter = 0; iter < 20; iter++) {
+              const xm = (x1 + x2) / 2;
+              const ym1 = testExpression(f1.expr, xm);
+              const ym2 = testExpression(f2.expr, xm);
+              
+              if (Math.abs(ym1 - ym2) < tolerance) {
+                intersections.push({ x: xm, y: (ym1 + ym2) / 2, f1: f1.expr, f2: f2.expr });
+                break;
+              }
+              
+              if (Math.sign(ym1 - ym2) === Math.sign(y1f1 - y1f2)) {
+                x1 = xm;
+              } else {
+                x2 = xm;
+              }
+            }
+          }
+        } catch (e) {}
+      }
+    }
+  }
+  return intersections;
+}
+
+function drawIntersections() {
+  if (!showIntersections || functions.length < 2) return;
+  
+  const intersections = findIntersections();
+  const scale = 40 * zoom;
+  const centerX = graphCanvas.width / 2 + offsetX;
+  const centerY = graphCanvas.height / 2 + offsetY;
+  
+  intersections.forEach((pt, i) => {
+    const px = centerX + pt.x * scale;
+    const py = centerY - pt.y * scale;
+    
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    ctx.fillStyle = "#000";
+    ctx.font = "11px sans-serif";
+    ctx.fillText(`(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`, px + 8, py - 8);
+  });
+}
+
+function drawDerivatives() {
+  if (!showDerivative) return;
+  
+  const scale = 40 * zoom;
+  const centerX = graphCanvas.width / 2 + offsetX;
+  const centerY = graphCanvas.height / 2 + offsetY;
+  
+  functions.forEach((f, idx) => {
+    ctx.strokeStyle = "rgba(255,255,255,0.5)";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    
+    let first = true;
+    for (let px = 0; px < graphCanvas.width; px++) {
+      const x = (px - centerX) / scale;
+      
+      try {
+        const deriv = (testExpression(f.expr, x + 0.01) - testExpression(f.expr, x)) / 0.01;
+        const py = centerY - deriv * scale;
+        
+        if (py < -graphCanvas.height || py > graphCanvas.height * 2) {
+          first = true;
+          continue;
+        }
+        
+        if (first) {
+          ctx.moveTo(px, py);
+          first = false;
+        } else {
+          ctx.lineTo(px, py);
+        }
+      } catch (e) {
+        first = true;
+      }
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  });
 }
 
 function drawGraph() {
@@ -188,6 +324,9 @@ function drawGraph() {
   });
   
   if (zoomLevel) zoomLevel.textContent = `Zoom: ${zoom}x`;
+  
+  drawIntersections();
+  drawDerivatives();
 }
 
 graphCanvas && graphCanvas.addEventListener('wheel', (e) => {

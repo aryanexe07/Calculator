@@ -156,7 +156,7 @@ The application includes built-in light and dark theme support via CSS variables
 5. Use C to clear, ⌫ to backspace
 
 ### Scientific Calculator
-1. Switch between RAD and DEG modes by clicking the mode indicator
+1. Switch between RAD and DEG mode by clicking the mode indicator
 2. Use trig functions (sin, cos, tan) and their inverses
 3. Access logarithmic functions (log, ln)
 4. Use π and e constants

@@ -513,6 +513,18 @@ button.theme { background: transparent; font-size: 20px; }
   padding-top: 10px;
 }
 
+.converter-field textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--bg-display);
+  color: var(--text-primary);
+  font-family: inherit;
+  resize: vertical;
+}
+
 .swap-btn {
   width: 100%;
   margin-top: 20px;

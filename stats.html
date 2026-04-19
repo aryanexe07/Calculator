@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistics Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="network"></canvas>
+  
+  <div class="nav-back" onclick="window.location.href='index.html'">← Menu</div>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">◐</button>
+  <div class="favorite-badge" onclick="toggleFavorite()">★ Pin</div>
+  
+  <div class="converter">
+    <h2 style="margin-bottom: 20px;">Statistics</h2>
+    
+    <div class="converter-inputs" style="flex-direction: column; gap: 15px;">
+      <div class="converter-field" style="flex-direction: column; align-items: flex-start;">
+        <label style="margin-bottom: 5px; color: var(--text-secondary);">Enter values (comma or space separated)</label>
+        <textarea id="dataInput" class="no-shortcut" rows="3" placeholder="e.g., 10, 20, 30, 40, 50" oninput="calculateStats()"></textarea>
+      </div>
+    </div>
+    
+    <div class="converter-formulas" id="results" style="margin-top: 20px;">
+      <div class="result-row">
+        <span>Count (n):</span>
+        <span id="count">-</span>
+      </div>
+      <div class="result-row">
+        <span>Sum:</span>
+        <span id="sum">-</span>
+      </div>
+      <div class="result-row">
+        <span>Mean:</span>
+        <span id="mean">-</span>
+      </div>
+      <div class="result-row">
+        <span>Median:</span>
+        <span id="median">-</span>
+      </div>
+      <div class="result-row">
+        <span>Mode:</span>
+        <span id="mode">-</span>
+      </div>
+      <div class="result-row">
+        <span>Range:</span>
+        <span id="range">-</span>
+      </div>
+      <div class="result-row">
+        <span>Std Dev (σ):</span>
+        <span id="stdDev">-</span>
+      </div>
+      <div class="result-row">
+        <span>Variance (σ²):</span>
+        <span id="variance">-</span>
+      </div>
+    </div>
+    
+    <button class="swap-btn" onclick="clearData()">Clear Data</button>
+  </div>
+
+  <script>
+    const CALCULATOR_NAME = 'stats';
+  </script>
+  <script src="shared.js"></script>
+  <script src="stats.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const fav = getFavCalculator();
+      if (fav === 'Stats') document.querySelector('.favorite-badge').textContent = '★ Pinned';
+    });
+  </script>
+</body>
+</html>

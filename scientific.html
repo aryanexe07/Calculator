@@ -16,7 +16,7 @@
   <div class="calculator scientific">
     <div class="mode-indicator" id="modeIndicator" onclick="toggleMode()">RAD</div>
     <div class="preview" id="preview"></div>
-    <input type="text" id="display" readonly onclick="copyToClipboard()">
+    <input type="text" id="display" oninput="updatePreview()" onfocus="this.setSelectionRange(this.value.length, this.value.length)">
     <div class="history-toggle" onclick="toggleHistory()">📜 History</div>
     
     <div class="buttons scientific">

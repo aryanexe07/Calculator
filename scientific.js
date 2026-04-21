@@ -36,6 +36,7 @@ function appendValue(value) {
   }
   
   display.value += value;
+  updatePreview();
 }
 
 function backspace() {

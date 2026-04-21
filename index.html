@@ -94,8 +94,7 @@
     function init() {
       const fav = localStorage.getItem('calcFavorite');
       if (fav && pages[fav]) {
-        document.getElementById('pinnedInfo').textContent = '★ ' + fav + ' is pinned - click to open';
-        setTimeout(() => window.location.href = pages[fav], 1500);
+        document.getElementById('pinnedInfo').innerHTML = `<a href="${pages[fav]}" style="color: var(--accent-blue); text-decoration: underline;">★ Click to open ${fav}</a>`;
       }
     }
     window.addEventListener('DOMContentLoaded', init);
